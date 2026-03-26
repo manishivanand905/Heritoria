@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Header from "../../../components/Header/Header";
@@ -186,6 +186,8 @@ const ProjectDetail = () => {
   const [isLoadingProject, setIsLoadingProject] = useState(true);
   const [projectError, setProjectError] = useState("");
   const [scrollY, setScrollY] = useState(0);
+  const scrollTargetRef = useRef(0);
+  const scrollAnimationFrameRef = useRef(null);
   const [activeModal, setActiveModal] = useState(null);
   const [selectedPlan, setSelectedPlan] = useState(subscriptionPlans[0].id);
   const [subscriptionSubmitted, setSubscriptionSubmitted] = useState(false);
@@ -215,10 +217,41 @@ const ProjectDetail = () => {
   }, [id]);
 
   useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener("scroll", handleScroll);
+    let currentScroll = window.scrollY;
+    scrollTargetRef.current = currentScroll;
+    setScrollY(currentScroll);
 
-    return () => window.removeEventListener("scroll", handleScroll);
+    const updateParallax = () => {
+      const delta = scrollTargetRef.current - currentScroll;
+
+      // Ease toward the latest scroll position to avoid jumpy hero movement.
+      currentScroll += delta * 0.12;
+
+      if (Math.abs(delta) < 0.1) {
+        currentScroll = scrollTargetRef.current;
+      }
+
+      setScrollY(currentScroll);
+      scrollAnimationFrameRef.current = window.requestAnimationFrame(
+        updateParallax
+      );
+    };
+
+    const handleScroll = () => {
+      scrollTargetRef.current = window.scrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    scrollAnimationFrameRef.current = window.requestAnimationFrame(
+      updateParallax
+    );
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (scrollAnimationFrameRef.current) {
+        window.cancelAnimationFrame(scrollAnimationFrameRef.current);
+      }
+    };
   }, []);
 
   useEffect(() => {
@@ -395,7 +428,7 @@ const ProjectDetail = () => {
       <Header />
       <PageContainer>
         <HeroSection>
-          <HeroImage style={{ transform: `translateY(${scrollY * 0.5}px)` }}>
+          <HeroImage style={{ transform: `translate3d(0, ${scrollY * 0.35}px, 0)` }}>
             <img src={project.image} alt={project.name} />
           </HeroImage>
           <HeroOverlay>

@@ -28,6 +28,9 @@ export const HeroImage = styled.div`
   top: -10%;
   left: 0;
   will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  transform-origin: center center;
 
   img {
     width: 100%;
@@ -209,7 +212,7 @@ export const MainContent = styled.div`
 
 export const Sidebar = styled.div`
   @media (max-width: 768px) {
-    order: -1;
+    order: 1;
   }
 `;
 

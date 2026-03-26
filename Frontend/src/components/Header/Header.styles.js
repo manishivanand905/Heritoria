@@ -44,7 +44,9 @@ export const LogoSection = styled.div`
   color: inherit;
 
   @media (max-width: 768px) {
+    flex: 1;
     gap: 10px;
+    min-width: 0;
   }
 `;
 
@@ -79,9 +81,14 @@ export const LogoText = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2px;
+  min-width: 0;
 
   @media (max-width: 1024px) {
     display: none;
+  }
+
+  @media (max-width: 768px) {
+    display: flex;
   }
 `;
 
@@ -94,7 +101,10 @@ export const LogoTitle = styled.div`
   line-height: 1;
 
   @media (max-width: 768px) {
-    font-size: 18px;
+    font-size: 17px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 `;
 
@@ -107,7 +117,11 @@ export const LogoSubtitle = styled.div`
   line-height: 1.2;
 
   @media (max-width: 768px) {
-    font-size: 12px;
+    display: block;
+    font-size: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 `;
 

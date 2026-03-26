@@ -182,6 +182,11 @@ export const ProjectCard = styled.div`
   }
 `;
 
+export const ProjectMedia = styled.div`
+  position: relative;
+  overflow: hidden;
+`;
+
 export const ProjectImage = styled.img`
   width: 100%;
   height: 260px;
@@ -229,30 +234,45 @@ export const StatusBadge = styled.div`
 
 export const BenefitBadge = styled.div`
   position: absolute;
-  top: 200px;
+  bottom: 1rem;
   left: 1rem;
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
   padding: 0.625rem 1rem;
-  border-radius: 8px;
-  display: flex;
+  border-radius: 10px;
+  display: inline-flex;
   align-items: center;
   gap: 0.5rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   z-index: 2;
   transition: all 0.3s ease;
+  width: fit-content;
 
   ${ProjectCard}:hover & {
     transform: translateY(-4px);
   }
 
   @media (max-width: 768px) {
-    bottom: 0;
-    padding: 0.5rem 0.875rem;
+    top: auto;
+    right: auto;
+    height: 38px;
+    min-height: 38px;
+    padding: 0 0.875rem;
+    bottom: 0.875rem;
+    max-width: calc(100% - 2rem);
+    box-sizing: border-box;
+    overflow: hidden;
+    gap: 0.375rem;
   }
 
   @media (max-width: 480px) {
-    bottom: 0;
+    height: 38px;
+    min-height: 38px;
+    bottom: 0.75rem;
+    left: 0.75rem;
+    padding: 0 0.75rem;
+    max-width: calc(100% - 1.5rem);
+    overflow: hidden;
   }
 `;
 
@@ -263,7 +283,7 @@ export const BenefitIcon = styled.span`
   align-items: center;
 
   @media (max-width: 768px) {
-    font-size: 0.938rem;
+    font-size: 0.875rem;
   }
 `;
 
@@ -272,9 +292,13 @@ export const BenefitText = styled.span`
   font-size: 0.875rem;
   font-weight: 600;
   white-space: nowrap;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
 
   @media (max-width: 768px) {
-    font-size: 0.813rem;
+    font-size: 0.75rem;
+    line-height: 1;
   }
 `;
 

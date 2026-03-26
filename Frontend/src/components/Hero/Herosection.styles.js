@@ -27,14 +27,22 @@ export const HeroContainer = styled.section`
     position: absolute;
     inset: 0;
     background:
-      radial-gradient(circle at top right, rgba(255, 255, 255, 0.18), transparent 36%),
-      radial-gradient(circle at bottom left, rgba(13, 125, 110, 0.2), transparent 38%);
+      radial-gradient(
+        circle at top right,
+        rgba(255, 255, 255, 0.18),
+        transparent 36%
+      ),
+      radial-gradient(
+        circle at bottom left,
+        rgba(13, 125, 110, 0.2),
+        transparent 38%
+      );
     pointer-events: none;
   }
 
   @media (max-width: 768px) {
     padding: ${({ $offsetForHeader }) =>
-      $offsetForHeader ? "146px 16px 56px" : "56px 16px"};
+      $offsetForHeader ? "310px 16px 100px" : "56px 16px"};
     min-height: auto;
   }
 `;

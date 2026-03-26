@@ -19,6 +19,7 @@ import {
   ProjectsTrack,
   ProjectSlide,
   ProjectCard,
+  ProjectMedia,
   ProjectImage,
   StatusBadge,
   BenefitBadge,
@@ -80,14 +81,16 @@ const FeaturedProjects = () => {
             {marqueeProjects.map((project, index) => (
               <ProjectSlide key={`${project.id}-${index}`}>
                 <ProjectCard>
-                  <ProjectImage src={project.image} alt={project.name} />
-                  <StatusBadge>{project.status}</StatusBadge>
-                  <BenefitBadge>
-                    <BenefitIcon>
-                      <FontAwesomeIcon icon={faCoins} />
-                    </BenefitIcon>
-                    <BenefitText>Benefits worth {project.benefitsWorth}</BenefitText>
-                  </BenefitBadge>
+                  <ProjectMedia>
+                    <ProjectImage src={project.image} alt={project.name} />
+                    <StatusBadge>{project.status}</StatusBadge>
+                    <BenefitBadge>
+                      <BenefitIcon>
+                        <FontAwesomeIcon icon={faCoins} />
+                      </BenefitIcon>
+                      <BenefitText>Benefits worth {project.benefitsWorth}</BenefitText>
+                    </BenefitBadge>
+                  </ProjectMedia>
 
                   <ProjectContent>
                     <ProjectTitle>{project.name}</ProjectTitle>
