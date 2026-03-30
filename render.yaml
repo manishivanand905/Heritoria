@@ -10,8 +10,6 @@ services:
         sync: false
       - key: MONGODB_DB_NAME
         value: heritoria
-      - key: MONGODB_DNS_SERVERS
-        value: 8.8.8.8,1.1.1.1
       - key: CLIENT_URL
         sync: false
       - key: SEED_DEFAULT_PROJECTS

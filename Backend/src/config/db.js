@@ -25,8 +25,8 @@ const connectDB = async () => {
       Number(process.env.MONGODB_SERVER_SELECTION_TIMEOUT_MS) ||
       DEFAULT_SERVER_SELECTION_TIMEOUT_MS;
 
-    if (mongoUri.startsWith("mongodb+srv://")) {
-      const dnsServers = (process.env.MONGODB_DNS_SERVERS || "8.8.8.8,1.1.1.1")
+    if (mongoUri.startsWith("mongodb+srv://") && process.env.MONGODB_DNS_SERVERS) {
+      const dnsServers = process.env.MONGODB_DNS_SERVERS
         .split(",")
         .map((server) => server.trim())
         .filter(Boolean);
