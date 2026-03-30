@@ -33,7 +33,9 @@ const connectDB = async () => {
   const mongoUri = process.env.MONGODB_URI;
 
   if (!mongoUri) {
-    throw new Error("MONGODB_URI is missing in Backend/.env");
+    throw new Error(
+      "MONGODB_URI is missing. Set it in Backend/.env for local development or in your hosting provider environment variables for deployment.",
+    );
   }
 
   const dbName = process.env.MONGODB_DB_NAME || extractDbName(mongoUri) || DEFAULT_DB_NAME;

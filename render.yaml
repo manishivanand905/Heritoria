@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: heritoria-backend
+    env: node
+    rootDir: Backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: MONGODB_URI
+        sync: false
+      - key: MONGODB_DB_NAME
+        value: heritoria
+      - key: MONGODB_DNS_SERVERS
+        value: 8.8.8.8,1.1.1.1
+      - key: CLIENT_URL
+        sync: false
+      - key: SEED_DEFAULT_PROJECTS
+        value: "true"
+      - key: TEMP_ADMIN_USERNAME
+        sync: false
+      - key: TEMP_ADMIN_PASSWORD
+        sync: false
+      - key: TEMP_ADMIN_TOKEN_SALT
+        sync: false
