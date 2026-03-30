@@ -15,6 +15,7 @@ import {
   SectionLabel,
   SectionTitle,
   ViewAllButton,
+  ViewAllButtonWrapper,
   ProjectsGrid,
   ProjectsTrack,
   ProjectSlide,
@@ -70,10 +71,6 @@ const FeaturedProjects = () => {
             <SectionLabel>FEATURED PROJECTS</SectionLabel>
             <SectionTitle>Handpicked for You</SectionTitle>
           </div>
-          <ViewAllButton to="/projects">
-            View All Projects
-            <FontAwesomeIcon icon={faArrowRight} />
-          </ViewAllButton>
         </SectionHeader>
 
         <ProjectsGrid>
@@ -129,6 +126,13 @@ const FeaturedProjects = () => {
             ))}
           </ProjectsTrack>
         </ProjectsGrid>
+
+        <ViewAllButtonWrapper>
+          <ViewAllButton to="/projects">
+            View All Projects
+            <FontAwesomeIcon icon={faArrowRight} />
+          </ViewAllButton>
+        </ViewAllButtonWrapper>
       </Container>
     </FeaturedSection>
   );

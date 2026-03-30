@@ -140,6 +140,16 @@ export const ProjectsGrid = styled.div`
   }
 `;
 
+export const ViewAllButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 2.5rem;
+
+  @media (max-width: 768px) {
+    margin-top: 2rem;
+  }
+`;
+
 export const ProjectsTrack = styled.div`
   display: flex;
   align-items: stretch;

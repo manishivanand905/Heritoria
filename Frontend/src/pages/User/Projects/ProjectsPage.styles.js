@@ -31,12 +31,21 @@ export const FiltersSection = styled.div`
   gap: 20px;
   margin-bottom: 40px;
   flex-wrap: wrap;
+
+  @media (max-width: 480px) {
+    gap: 8px;
+  }
 `;
 
 export const FilterDropdown = styled.div`
   position: relative;
   flex: 1;
   min-width: 200px;
+
+  @media (max-width: 480px) {
+    flex: 1 1 0;
+    min-width: 0;
+  }
 `;
 
 export const FilterButton = styled.button`
@@ -53,11 +62,22 @@ export const FilterButton = styled.button`
   font-weight: 500;
   transition: all 0.3s ease;
   width: 100%;
+  white-space: nowrap;
 
   &:hover {
     background: #197663;
     color: #fff;
     border-color: #197663;
+  }
+
+  svg {
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 480px) {
+    padding: 11px 10px;
+    font-size: 13px;
+    gap: 6px;
   }
 `;
 
@@ -457,6 +477,10 @@ export const SearchContainer = styled.div`
   position: relative;
   width: 100%;
   margin-bottom: 20px;
+
+  @media (max-width: 480px) {
+    margin-bottom: 0;
+  }
 `;
 
 export const SearchInput = styled.input`
