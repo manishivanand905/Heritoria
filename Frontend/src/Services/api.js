@@ -1,5 +1,5 @@
 const DEFAULT_LOCAL_API_URL = "http://localhost:5000/api";
-const DEFAULT_PRODUCTION_API_URL = "https://heritoria-backend.onrender.com/api";
+const DEFAULT_PRODUCTION_API_URL = "https://heritoria.onrender.com/api";
 
 const normalizeBaseUrl = (url) => url.replace(/\/+$/, "");
 
