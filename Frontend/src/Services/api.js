@@ -1,5 +1,16 @@
-const API_BASE_URL =
-  process.env.REACT_APP_API_URL || "http://localhost:5000/api";
+const DEFAULT_LOCAL_API_URL = "http://localhost:5000/api";
+const DEFAULT_PRODUCTION_API_URL = "https://heritoria-backend.onrender.com/api";
+
+const normalizeBaseUrl = (url) => url.replace(/\/+$/, "");
+
+const isLocalFrontend =
+  typeof window !== "undefined" &&
+  ["localhost", "127.0.0.1"].includes(window.location.hostname);
+
+const API_BASE_URL = normalizeBaseUrl(
+  process.env.REACT_APP_API_URL ||
+    (isLocalFrontend ? DEFAULT_LOCAL_API_URL : DEFAULT_PRODUCTION_API_URL),
+);
 
 const getAdminToken = () => {
   try {
