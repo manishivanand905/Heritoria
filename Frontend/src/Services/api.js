@@ -1,7 +1,10 @@
 const DEFAULT_LOCAL_API_URL = "http://localhost:5000/api";
 const DEFAULT_PRODUCTION_API_URL = "https://heritoria.onrender.com/api";
 
-const normalizeBaseUrl = (url) => url.replace(/\/+$/, "");
+const normalizeBaseUrl = (url) => {
+  const trimmedUrl = url.replace(/\/+$/, "");
+  return trimmedUrl.endsWith("/api") ? trimmedUrl : `${trimmedUrl}/api`;
+};
 
 const isLocalFrontend =
   typeof window !== "undefined" &&
