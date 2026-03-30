@@ -34,6 +34,14 @@ app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 app.use(morgan("dev"));
 
+app.get("/", (req, res) => {
+  res.json({
+    success: true,
+    message: "Heritoria backend is running",
+    api: "/api/health",
+  });
+});
+
 app.get("/api/health", (req, res) => {
   res.json({
     success: true,
