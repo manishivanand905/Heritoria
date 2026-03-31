@@ -37,6 +37,11 @@ import {
   BenefitAmount,
 } from "./Herosection.styles";
 import homeHeroContent from "../../data/homeHero.data";
+import {
+  BENEFIT_RANGE_HEADLINE,
+  BENEFIT_RANGE_LABEL,
+  MAX_BENEFIT_LABEL,
+} from "../../constants/benefits";
 
 const HeroSection = ({ offsetForHeader = false }) => {
   return (
@@ -55,20 +60,22 @@ const HeroSection = ({ offsetForHeader = false }) => {
 
           <MainHeading>
             <HeadingPrimary>Buy New Projects.</HeadingPrimary>
-            <HeadingSecondary>Get Benefits Worth Lakhs.</HeadingSecondary>
+            <HeadingSecondary>
+              Get Benefits Worth {BENEFIT_RANGE_HEADLINE}.
+            </HeadingSecondary>
           </MainHeading>
 
           <Description>
             We&apos;re not just brokers. We&apos;re your investment partners. Get
             exclusive pre-sale and post-sale benefits on premium Hyderabad
             projects from modular furniture to home automation, worth{" "}
-            <strong>Rs 5L - Rs 12L</strong>.
+            <strong>{BENEFIT_RANGE_LABEL}</strong>.
           </Description>
 
           <StatsContainer>
             <StatItem>
-              <StatValue>Rs 8.5L+</StatValue>
-              <StatLabel>Avg. Benefit Value</StatLabel>
+              <StatValue>Up to Rs 3L</StatValue>
+              <StatLabel>Max Benefit Value</StatLabel>
             </StatItem>
             <StatItem>
               <StatValue>25+</StatValue>
@@ -119,7 +126,7 @@ const HeroSection = ({ offsetForHeader = false }) => {
                 </BenefitIcon>
                 <div>
                   <BenefitLabel>Your Exclusive Benefit</BenefitLabel>
-                  <BenefitAmount>Rs 8.5 Lakhs</BenefitAmount>
+                  <BenefitAmount>{MAX_BENEFIT_LABEL}</BenefitAmount>
                 </div>
               </BenefitBox>
             </ProjectInfo>

@@ -31,6 +31,7 @@ import {
   LegalLinks,
   LegalLink,
 } from "./Footer.styles";
+import { BENEFIT_RANGE_LABEL } from "../../constants/benefits";
 
 const Footer = () => {
   return (
@@ -48,8 +49,8 @@ const Footer = () => {
             </LogoSection>
             <CompanyDescription>
               Your trusted partner for premium heritage residential projects in
-              Hyderabad. We bring you exclusive benefits worth lakhs on every
-              purchase.
+              Hyderabad. We bring you exclusive benefits worth{" "}
+              {BENEFIT_RANGE_LABEL} on every purchase.
             </CompanyDescription>
           </FooterColumn>
 

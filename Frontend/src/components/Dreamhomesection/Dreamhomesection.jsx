@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faPhone } from "@fortawesome/free-solid-svg-icons";
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
@@ -24,8 +25,11 @@ import {
   WhatsAppButton,
   WhatsAppIcon,
 } from "./Dreamhomesection.styles";
+import { BENEFIT_RANGE_LABEL } from "../../constants/benefits";
 
 const DreamHomeSection = () => {
+  const history = useHistory();
+
   return (
     <SectionContainer>
       <ContentWrapper>
@@ -34,11 +38,12 @@ const DreamHomeSection = () => {
             Ready to Find Your <DreamText>Dream Home?</DreamText>
           </Heading>
           <Subtext>
-            Join 500+ families who've already unlocked exclusive benefits worth
-            lakhs. Start your journey today with a quick consultation.
+            Join 500+ families who've already unlocked exclusive benefits worth{" "}
+            {BENEFIT_RANGE_LABEL}. Start your journey today with a quick
+            consultation.
           </Subtext>
           <ButtonGroup>
-            <BrowseButton>
+            <BrowseButton type="button" onClick={() => history.push("/projects")}>
               Browse Projects <FontAwesomeIcon icon={faArrowRight} />
             </BrowseButton>
             <ScheduleButton>

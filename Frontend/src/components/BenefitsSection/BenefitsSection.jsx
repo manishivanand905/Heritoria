@@ -28,6 +28,11 @@ import {
   BenefitValueLabel,
   BenefitValue,
 } from "./BenefitsSection.styles";
+import {
+  AUTOMATION_BENEFIT_LABEL,
+  BENEFIT_RANGE_HEADLINE,
+  FURNITURE_BENEFIT_LABEL,
+} from "../../constants/benefits";
 
 const BenefitsSection = () => {
   return (
@@ -37,7 +42,7 @@ const BenefitsSection = () => {
 
         <MainHeading>
           <HeadingText>Benefits Worth </HeadingText>
-          <HighlightText>₹5L - ₹12L</HighlightText>
+          <HighlightText>{BENEFIT_RANGE_HEADLINE}</HighlightText>
           <HeadingText> on Every Purchase</HeadingText>
         </MainHeading>
 
@@ -46,7 +51,6 @@ const BenefitsSection = () => {
           to your purchase with exclusive benefits you won't get anywhere else.
         </Description>
 
-        {/* Pre-Sale Benefits */}
         <BenefitsGroup>
           <GroupHeader>
             <GroupNumber teal>1</GroupNumber>
@@ -89,7 +93,6 @@ const BenefitsSection = () => {
           </CardsGrid>
         </BenefitsGroup>
 
-        {/* Post-Sale Benefits */}
         <BenefitsGroup>
           <GroupHeader>
             <GroupNumber yellow>2</GroupNumber>
@@ -104,10 +107,10 @@ const BenefitsSection = () => {
               <CardTitle>Modular Furniture Package</CardTitle>
               <CardDescription>
                 Complete modular kitchen, wardrobes, and TV units from premium
-                brands — designed for your new home.
+                brands, designed for your new home.
               </CardDescription>
               <BenefitValueLabel>BENEFIT VALUE</BenefitValueLabel>
-              <BenefitValue>Up to ₹5L</BenefitValue>
+              <BenefitValue>{FURNITURE_BENEFIT_LABEL}</BenefitValue>
             </BenefitCard>
 
             <BenefitCard yellow>
@@ -117,10 +120,10 @@ const BenefitsSection = () => {
               <CardTitle>Smart Home Automation</CardTitle>
               <CardDescription>
                 Automated lighting, AC control, security cameras, and smart
-                locks — making your home future-ready.
+                locks, making your home future-ready.
               </CardDescription>
               <BenefitValueLabel>BENEFIT VALUE</BenefitValueLabel>
-              <BenefitValue>Up to ₹3.5L</BenefitValue>
+              <BenefitValue>{AUTOMATION_BENEFIT_LABEL}</BenefitValue>
             </BenefitCard>
 
             <BenefitCard yellow>

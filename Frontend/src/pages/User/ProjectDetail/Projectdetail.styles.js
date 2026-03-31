@@ -996,23 +996,43 @@ export const PlanDescription = styled.p`
   color: #6b7280;
 `;
 
+export const PlanBenefitPill = styled.div`
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 12px;
+  margin-bottom: 14px;
+  border-radius: 999px;
+  background: ${(props) => (props.$isSelected ? "#dcfce7" : "#fef3c7")};
+  color: ${(props) => (props.$isSelected ? "#166534" : "#92400e")};
+  font-size: 13px;
+  font-weight: 700;
+`;
+
 export const PlanFeatureList = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 `;
 
 export const PlanFeatureItem = styled.li`
   position: relative;
-  padding-left: 18px;
-  color: #1f2937;
+  padding: ${(props) =>
+    props.$highlighted ? "10px 12px 10px 30px" : "0 0 0 18px"};
+  color: ${(props) => (props.$highlighted ? "#166534" : "#1f2937")};
   font-size: 14px;
   line-height: 1.5;
+  font-weight: ${(props) => (props.$highlighted ? 700 : 400)};
+  border-radius: 12px;
+  background: ${(props) => (props.$highlighted ? "#ecfdf3" : "transparent")};
+  border: ${(props) => (props.$highlighted ? "1px solid #bbf7d0" : "none")};
 
   &::before {
     content: "";
     position: absolute;
-    left: 0;
+    left: ${(props) => (props.$highlighted ? "12px" : "0")};
     top: 8px;
     width: 7px;
     height: 7px;

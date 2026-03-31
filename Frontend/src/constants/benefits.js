@@ -1,0 +1,9 @@
+export const BENEFIT_RANGE_HEADLINE = "20K - 3 Lakhs";
+export const BENEFIT_RANGE_LABEL = "Rs 20K - Rs 3 Lakhs";
+export const MAX_BENEFIT_LABEL = "Rs 3 Lakhs";
+export const TOTAL_BENEFIT_LABEL = "Up to Rs 3 Lakhs";
+export const BASIC_BENEFIT_LABEL = "Rs 20K";
+export const PREMIUM_BENEFIT_LABEL = "Rs 1 Lakh";
+export const ELITE_BENEFIT_LABEL = "Rs 3 Lakhs";
+export const FURNITURE_BENEFIT_LABEL = "Up to Rs 2 Lakhs";
+export const AUTOMATION_BENEFIT_LABEL = "Up to Rs 1 Lakh";

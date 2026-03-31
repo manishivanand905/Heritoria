@@ -95,6 +95,7 @@ import {
   PlanName,
   PlanPrice,
   PlanDescription,
+  PlanBenefitPill,
   PlanFeatureList,
   PlanFeatureItem,
   SelectedPlanSummary,
@@ -118,6 +119,12 @@ import {
   SlotButton,
   InlineNote,
 } from "./Projectdetail.styles";
+import {
+  BENEFIT_RANGE_LABEL,
+  AUTOMATION_BENEFIT_LABEL,
+  FURNITURE_BENEFIT_LABEL,
+  TOTAL_BENEFIT_LABEL,
+} from "../../../constants/benefits";
 
 const subscriptionPlans = [
   {
@@ -130,6 +137,7 @@ const subscriptionPlans = [
       "Builder pricing support",
       "Documentation guidance",
     ],
+    benefitAmount: "Rs 20K",
   },
   {
     id: "premium",
@@ -141,6 +149,7 @@ const subscriptionPlans = [
       "Priority site visit coordination",
       "Shortlist review and negotiation help",
     ],
+    benefitAmount: "Rs 1 Lakh",
   },
   {
     id: "elite",
@@ -152,6 +161,7 @@ const subscriptionPlans = [
       "Dedicated relationship manager",
       "Booking strategy and concierge support",
     ],
+    benefitAmount: "Rs 3 Lakhs",
   },
 ];
 
@@ -419,6 +429,19 @@ const ProjectDetail = () => {
     }
   };
 
+  const getBenefitDisplayValue = (benefit) => {
+    switch (benefit.icon) {
+      case "kitchen":
+        return FURNITURE_BENEFIT_LABEL;
+      case "automation":
+        return AUTOMATION_BENEFIT_LABEL;
+      case "inspection":
+        return "Included";
+      default:
+        return benefit.value === "Included" ? benefit.value : TOTAL_BENEFIT_LABEL;
+    }
+  };
+
   const selectedPlanDetails =
     subscriptionPlans.find((plan) => plan.id === selectedPlan) ||
     subscriptionPlans[0];
@@ -512,34 +535,38 @@ const ProjectDetail = () => {
                       </CompanyInfo>
                     </CompanyBadge>
 
-                    {project.benefits.map((benefit) => (
-                      <BenefitCard key={benefit.id}>
-                        <BenefitIconWrapper>
-                          <BenefitIcon>
-                            <FontAwesomeIcon
-                              icon={getBenefitIcon(benefit.icon)}
-                            />
-                          </BenefitIcon>
-                        </BenefitIconWrapper>
-                        <BenefitContent>
-                          <BenefitTitle>{benefit.title}</BenefitTitle>
-                          <BenefitDescription>
-                            {benefit.description}
-                          </BenefitDescription>
-                        </BenefitContent>
-                        {benefit.value === "Included" ? (
-                          <BenefitIncluded>{benefit.value}</BenefitIncluded>
-                        ) : (
-                          <BenefitValue>{benefit.value}</BenefitValue>
-                        )}
-                      </BenefitCard>
-                    ))}
+                    {project.benefits.map((benefit) => {
+                      const benefitDisplayValue = getBenefitDisplayValue(benefit);
+
+                      return (
+                        <BenefitCard key={benefit.id}>
+                          <BenefitIconWrapper>
+                            <BenefitIcon>
+                              <FontAwesomeIcon
+                                icon={getBenefitIcon(benefit.icon)}
+                              />
+                            </BenefitIcon>
+                          </BenefitIconWrapper>
+                          <BenefitContent>
+                            <BenefitTitle>{benefit.title}</BenefitTitle>
+                            <BenefitDescription>
+                              {benefit.description}
+                            </BenefitDescription>
+                          </BenefitContent>
+                          {benefitDisplayValue === "Included" ? (
+                            <BenefitIncluded>{benefitDisplayValue}</BenefitIncluded>
+                          ) : (
+                            <BenefitValue>{benefitDisplayValue}</BenefitValue>
+                          )}
+                        </BenefitCard>
+                      );
+                    })}
 
                     <TotalBenefitCard>
                       <div>
                         <TotalBenefitText>Total Benefit Value</TotalBenefitText>
                         <BenefitNote>
-                          (Note: Guaranteed benefits were provided)
+                          (Based on the plan you choose in Claim Benefits)
                         </BenefitNote>
                       </div>
                       <div
@@ -550,7 +577,7 @@ const ProjectDetail = () => {
                         }}
                       >
                         <TotalBenefitValue>
-                          {project.totalBenefitValue}
+                          {TOTAL_BENEFIT_LABEL}
                         </TotalBenefitValue>
                         <BenefitBadge>
                           <FontAwesomeIcon icon={faCoins} />
@@ -594,7 +621,7 @@ const ProjectDetail = () => {
                   <PriceLabel>Price Range</PriceLabel>
                   <PriceValue>{project.priceRange}</PriceValue>
                   <BenefitsNote>
-                    + Benefits worth {project.benefitsWorth}
+                    + Benefits worth {BENEFIT_RANGE_LABEL}
                   </BenefitsNote>
 
                   <ClaimButton type="button" onClick={handleOpenSubscription}>
@@ -631,8 +658,8 @@ const ProjectDetail = () => {
                 <ModalEyebrow>Membership Plans</ModalEyebrow>
                 <ModalTitle>Choose a benefit subscription</ModalTitle>
                 <ModalDescription>
-                  Pick the plan that fits your buying journey for {project.name},
-                  then share your details to continue to payment.
+                  Pick the plan that fits your buying journey for {project.name}
+                  and unlock benefits worth {BENEFIT_RANGE_LABEL}.
                 </ModalDescription>
               </div>
               <ModalCloseButton type="button" onClick={closeModal}>
@@ -646,8 +673,9 @@ const ProjectDetail = () => {
                 <SuccessMessage>
                   {subscriptionForm.fullName}, your {selectedPlanDetails.name}
                   {" "}plan request for {project.name} is ready for the next
-                  payment step. Connect your payment gateway to charge{" "}
-                  {selectedPlanDetails.price}.
+                  payment step with included benefits worth{" "}
+                  {selectedPlanDetails.benefitAmount}. Connect your payment
+                  gateway to charge {selectedPlanDetails.price}.
                 </SuccessMessage>
                 <ModalActions>
                   <SecondaryAction type="button" onClick={closeModal}>
@@ -671,6 +699,9 @@ const ProjectDetail = () => {
                       <PlanName>{plan.name}</PlanName>
                       <PlanPrice>{plan.price}</PlanPrice>
                       <PlanDescription>{plan.description}</PlanDescription>
+                      <PlanBenefitPill $isSelected={selectedPlan === plan.id}>
+                        Benefits Included: {plan.benefitAmount}
+                      </PlanBenefitPill>
                       <PlanFeatureList>
                         {plan.features.map((feature) => (
                           <PlanFeatureItem key={feature}>{feature}</PlanFeatureItem>
@@ -692,6 +723,10 @@ const ProjectDetail = () => {
                   <div>
                     <SummaryLabel>Selected Plan</SummaryLabel>
                     <SummaryValue>{selectedPlanDetails.name}</SummaryValue>
+                  </div>
+                  <div>
+                    <SummaryLabel>Benefits Included</SummaryLabel>
+                    <SummaryValue>{selectedPlanDetails.benefitAmount}</SummaryValue>
                   </div>
                   <div>
                     <SummaryLabel>Amount to Pay</SummaryLabel>

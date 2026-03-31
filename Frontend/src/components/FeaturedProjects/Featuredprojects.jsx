@@ -40,6 +40,7 @@ import {
   ViewButton,
   ViewButtonIcon,
 } from "./Featuredprojects.styles";
+import { BENEFIT_RANGE_LABEL } from "../../constants/benefits";
 
 const FeaturedProjects = () => {
   const history = useHistory();
@@ -85,7 +86,9 @@ const FeaturedProjects = () => {
                       <BenefitIcon>
                         <FontAwesomeIcon icon={faCoins} />
                       </BenefitIcon>
-                      <BenefitText>Benefits worth {project.benefitsWorth}</BenefitText>
+                      <BenefitText>
+                        Benefits worth {BENEFIT_RANGE_LABEL}
+                      </BenefitText>
                     </BenefitBadge>
                   </ProjectMedia>
 
