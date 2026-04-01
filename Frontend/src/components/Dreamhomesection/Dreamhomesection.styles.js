@@ -9,6 +9,10 @@ export const SectionContainer = styled.section`
   align-items: center;
   min-height: 500px;
 
+  @media (max-width: 1024px) {
+    padding: 40px 48px;
+  }
+
   @media (max-width: 768px) {
     padding: 60px 20px;
   }
@@ -27,11 +31,11 @@ export const ContentWrapper = styled.div`
   align-items: center;
 
   @media (max-width: 1024px) {
-    flex-direction: column;
-    gap: 50px;
+    gap: 36px;
   }
 
   @media (max-width: 768px) {
+    flex-direction: column;
     gap: 40px;
   }
 `;
@@ -41,6 +45,10 @@ export const LeftContent = styled.div`
   max-width: 600px;
 
   @media (max-width: 1024px) {
+    max-width: 52%;
+  }
+
+  @media (max-width: 768px) {
     max-width: 100%;
     text-align: center;
   }
@@ -96,7 +104,7 @@ export const ButtonGroup = styled.div`
   align-items: center;
 
   @media (max-width: 1024px) {
-    justify-content: center;
+    flex-wrap: wrap;
   }
 
   @media (max-width: 600px) {
@@ -187,7 +195,7 @@ export const RightContent = styled.div`
   max-width: 520px;
 
   @media (max-width: 1024px) {
-    max-width: 600px;
+    max-width: 48%;
   }
 
   @media (max-width: 768px) {
@@ -202,6 +210,10 @@ export const BenefitsCard = styled.div`
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   width: 100%;
   max-width: 380px;
+
+  @media (max-width: 1024px) {
+    max-width: 100%;
+  }
 
   @media (max-width: 768px) {
     padding: 20px;
