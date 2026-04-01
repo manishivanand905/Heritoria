@@ -1,4 +1,42 @@
-import styled from "styled-components";
+import styled, { css, keyframes } from "styled-components";
+
+const projectCardEnter = keyframes`
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 28px, 0) scale(0.98);
+    filter: blur(10px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0);
+  }
+`;
+
+const projectCardExit = keyframes`
+  0% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(0, -24px, 0) scale(1.02);
+    filter: blur(10px);
+  }
+`;
+
+const projectImageReveal = keyframes`
+  0% {
+    transform: scale(1.08);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+`;
 
 export const HeroContainer = styled.section`
   position: relative;
@@ -89,7 +127,8 @@ export const RightSection = styled.div`
   align-items: center;
 
   @media (max-width: 768px) {
-    display: none;
+    width: 100%;
+    justify-content: center;
   }
 `;
 
@@ -348,25 +387,66 @@ export const WhatsAppButton = styled.button`
   }
 `;
 
-export const ProjectCard = styled.div`
+export const ProjectCardStage = styled.div`
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+  }
+`;
+
+export const ProjectCard = styled.button`
+  appearance: none;
+  border: none;
+  padding: 0;
+  text-align: left;
   background: white;
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
-  max-width: 500px;
   width: 100%;
   transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
+    transform 0.45s ease,
+    box-shadow 0.45s ease;
+  cursor: pointer;
+  will-change: transform, opacity, filter;
 
   &:hover {
     transform: translateY(-8px);
     box-shadow: 0 24px 72px rgba(0, 0, 0, 0.16);
   }
 
+  &:focus-visible {
+    outline: 3px solid rgba(13, 125, 110, 0.38);
+    outline-offset: 4px;
+  }
+
   @media (max-width: 768px) {
     max-width: 100%;
   }
+`;
+
+export const AnimatedProjectCard = styled(ProjectCard)`
+  position: ${({ $animationState }) =>
+    $animationState === "exit" ? "absolute" : "relative"};
+  inset: ${({ $animationState }) => ($animationState === "exit" ? "0" : "auto")};
+  z-index: ${({ $animationState }) => ($animationState === "exit" ? 1 : 2)};
+  pointer-events: ${({ $animationState }) =>
+    $animationState === "exit" ? "none" : "auto"};
+
+  ${({ $animationState }) =>
+    $animationState === "enter" &&
+    css`
+      animation: ${projectCardEnter} 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+    `}
+
+  ${({ $animationState }) =>
+    $animationState === "exit" &&
+    css`
+      animation: ${projectCardExit} 1.2s cubic-bezier(0.4, 0, 0.2, 1) both;
+    `}
 `;
 
 export const ProjectImage = styled.div`
@@ -380,6 +460,11 @@ export const ProjectImage = styled.div`
     height: 100%;
     object-fit: cover;
     display: block;
+    transform-origin: center;
+  }
+
+  ${AnimatedProjectCard}[data-state="enter"] & img {
+    animation: ${projectImageReveal} 1.8s ease both;
   }
 
   @media (max-width: 768px) {
@@ -463,6 +548,13 @@ export const ProjectInfo = styled.div`
   }
 `;
 
+export const ProjectHeaderRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+`;
+
 export const ProjectLabel = styled.div`
   font-size: 10px;
   color: #888;
@@ -483,6 +575,13 @@ export const ProjectTitle = styled.h3`
   @media (max-width: 768px) {
     font-size: 18px;
   }
+`;
+
+export const ProjectBuilder = styled.div`
+  font-size: 14px;
+  color: #3b4952;
+  font-weight: 600;
+  line-height: 1.3;
 `;
 
 export const ProjectLocation = styled.div`

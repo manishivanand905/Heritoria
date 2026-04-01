@@ -1,5 +1,5 @@
-export const BENEFIT_RANGE_HEADLINE = "20K - 3 Lakhs";
-export const BENEFIT_RANGE_LABEL = "Rs 20K - Rs 3 Lakhs";
+export const BENEFIT_RANGE_HEADLINE = "Upto 3 Lakhs";
+export const BENEFIT_RANGE_LABEL = "Upto Rs 3 Lakhs";
 export const MAX_BENEFIT_LABEL = "Rs 3 Lakhs";
 export const TOTAL_BENEFIT_LABEL = "Up to Rs 3 Lakhs";
 export const BASIC_BENEFIT_LABEL = "Rs 20K";
