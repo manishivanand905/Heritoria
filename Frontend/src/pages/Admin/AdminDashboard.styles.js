@@ -12,6 +12,13 @@ const buttonStyles = css`
   &:hover {
     transform: translateY(-2px);
   }
+
+  &:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
 `;
 
 const inputBase = css`
@@ -797,6 +804,193 @@ export const ActivityMeta = styled.div`
   color: ${({ theme }) => theme.colors.text};
   font-size: 0.9rem;
   line-height: 1.6;
+`;
+
+export const RequestGroups = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 24px;
+`;
+
+export const RequestGroup = styled.div`
+  border-radius: 24px;
+  border: 1px solid rgba(25, 118, 99, 0.08);
+  background: rgba(255, 255, 255, 0.62);
+  overflow: hidden;
+`;
+
+export const RequestGroupHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 20px;
+  border-bottom: 1px solid rgba(25, 118, 99, 0.08);
+  background: rgba(248, 244, 236, 0.72);
+`;
+
+export const RequestGroupTitle = styled.h3`
+  margin: 0;
+  font-size: 1rem;
+  color: ${({ theme }) => theme.colors.textDark};
+`;
+
+export const RequestGroupMeta = styled.p`
+  margin: 6px 0 0;
+  color: ${({ theme }) => theme.colors.text};
+  font-size: 0.84rem;
+`;
+
+export const RequestProjectCell = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+`;
+
+export const RequestProjectThumb = styled.img`
+  width: 68px;
+  height: 52px;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 1px solid rgba(25, 118, 99, 0.1);
+  background: rgba(255, 255, 255, 0.9);
+  flex-shrink: 0;
+`;
+
+export const DetailCard = styled.div`
+  padding: 20px;
+  border-radius: 24px;
+  border: 1px solid rgba(25, 118, 99, 0.08);
+  background: rgba(255, 255, 255, 0.78);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+`;
+
+export const DetailHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+
+  ${({ theme }) => theme.media.sm} {
+    flex-direction: column;
+  }
+`;
+
+export const DetailEyebrow = styled.div`
+  color: ${({ theme }) => theme.colors.text};
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-weight: 700;
+`;
+
+export const DetailTitle = styled.h3`
+  margin: 8px 0 0;
+  font-size: 1.35rem;
+  color: ${({ theme }) => theme.colors.textDark};
+`;
+
+export const DetailMeta = styled.p`
+  margin: 8px 0 0;
+  color: ${({ theme }) => theme.colors.text};
+  font-size: 0.88rem;
+`;
+
+export const DetailGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+
+  ${({ theme }) => theme.media.sm} {
+    grid-template-columns: 1fr;
+  }
+`;
+
+export const DetailItem = styled.div`
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: rgba(248, 244, 236, 0.88);
+  border: 1px solid rgba(25, 118, 99, 0.08);
+`;
+
+export const DetailLabel = styled.div`
+  color: ${({ theme }) => theme.colors.text};
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 8px;
+`;
+
+export const DetailValue = styled.div`
+  color: ${({ theme }) => theme.colors.textDark};
+  font-weight: 600;
+  line-height: 1.5;
+  word-break: break-word;
+`;
+
+export const DetailSectionCard = styled.div`
+  padding: 20px;
+  border-radius: 24px;
+  border: 1px solid rgba(25, 118, 99, 0.08);
+  background: rgba(255, 255, 255, 0.7);
+`;
+
+export const DetailSectionTitle = styled.h4`
+  margin: 0 0 14px;
+  font-size: 1rem;
+  color: ${({ theme }) => theme.colors.primaryDark};
+`;
+
+export const DetailActionRow = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+`;
+
+export const DetailImageWrap = styled.div`
+  border-radius: 22px;
+  overflow: hidden;
+  border: 1px solid rgba(25, 118, 99, 0.08);
+  background: rgba(255, 255, 255, 0.92);
+`;
+
+export const DetailImage = styled.img`
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+`;
+
+export const SelectionHint = styled.div`
+  padding: 16px 18px;
+  border-radius: 18px;
+  border: 1px dashed rgba(25, 118, 99, 0.22);
+  background: rgba(248, 244, 236, 0.72);
+  color: ${({ theme }) => theme.colors.textDark};
+  line-height: 1.6;
+`;
+
+export const RequestImageFallback = styled.div`
+  min-height: 340px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: ${({ theme }) => theme.colors.text};
+  background:
+    radial-gradient(circle at top, rgba(236, 171, 19, 0.16), transparent 35%),
+    linear-gradient(180deg, rgba(248, 244, 236, 0.96), rgba(243, 238, 228, 0.92));
+  font-weight: 600;
+
+  svg {
+    font-size: 1.8rem;
+    color: ${({ theme }) => theme.colors.primaryDark};
+  }
 `;
 
 export const PreviewBackdrop = styled.div`

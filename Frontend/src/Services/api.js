@@ -42,6 +42,7 @@ const parseResponse = async (response) => {
 const requestJson = async (path, options = {}) => {
   const adminToken = getAdminToken();
   const response = await fetch(`${API_BASE_URL}${path}`, {
+    cache: options.cache || "no-store",
     headers: {
       "Content-Type": "application/json",
       ...(adminToken ? { Authorization: `Bearer ${adminToken}` } : {}),
