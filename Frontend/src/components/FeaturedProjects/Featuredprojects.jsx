@@ -6,6 +6,7 @@ import {
   faCalendar,
   faArrowRight,
   faCoins,
+  faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { requestJson } from "../../Services/api";
 import {
@@ -39,8 +40,10 @@ import {
   Configuration,
   ViewButton,
   ViewButtonIcon,
+  NextArrowButton,
 } from "./Featuredprojects.styles";
 import { BENEFIT_RANGE_LABEL } from "../../constants/benefits";
+import { ensurePriceRangeDisplay } from "../../utils/currencyFormatting";
 
 const FeaturedProjects = () => {
   const history = useHistory();
@@ -59,6 +62,79 @@ const FeaturedProjects = () => {
     loadFeaturedProjects();
   }, []);
 
+  const trackRef = React.useRef(null);
+  const [isHovered, setIsHovered] = useState(false);
+  const scrollPosRef = React.useRef(0);
+  const isTransitioningRef = React.useRef(false);
+
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track || featuredProjects.length === 0) return;
+
+    let animationId;
+    let lastTime = performance.now();
+
+    const scroll = (time) => {
+      const delta = time - lastTime;
+      lastTime = time;
+
+      if (!isHovered && !isTransitioningRef.current) {
+        // Adjust speed here: approximately 50px per second
+        scrollPosRef.current += delta * 0.05;
+
+        // Calculate maximum scroll based on original items to allow seamless loop
+        const totalWidth = track.scrollWidth;
+        const halfWidth = totalWidth / 2;
+
+        if (scrollPosRef.current >= halfWidth) {
+          scrollPosRef.current -= halfWidth;
+        }
+        track.style.transform = `translateX(-${scrollPosRef.current}px)`;
+      }
+
+      animationId = requestAnimationFrame(scroll);
+    };
+
+    animationId = requestAnimationFrame(scroll);
+
+    return () => cancelAnimationFrame(animationId);
+  }, [isHovered, featuredProjects]);
+
+  const handleNext = () => {
+    const track = trackRef.current;
+    if (!track || isTransitioningRef.current) return;
+
+    const cards = Array.from(track.children);
+    if (cards.length === 0) return;
+
+    const cardElement = cards[0];
+    const cardWidth = cardElement.offsetWidth;
+    const gap = parseFloat(window.getComputedStyle(track).gap) || 32;
+    const itemWidth = cardWidth + gap;
+
+    // Calculate the next snap position
+    let nextPos = Math.ceil((scrollPosRef.current + 1) / itemWidth) * itemWidth;
+
+    isTransitioningRef.current = true;
+    track.style.transition = "transform 0.4s cubic-bezier(0.25, 1, 0.5, 1)";
+    track.style.transform = `translateX(-${nextPos}px)`;
+
+    setTimeout(() => {
+      if (track) {
+        const halfWidth = track.scrollWidth / 2;
+        if (nextPos >= halfWidth) {
+          nextPos -= halfWidth;
+          track.style.transition = "none";
+          track.style.transform = `translateX(-${nextPos}px)`;
+        }
+        scrollPosRef.current = nextPos;
+        isTransitioningRef.current = false;
+        track.style.transition = "none";
+      }
+    }, 450);
+  };
+
+
   const marqueeProjects =
     featuredProjects.length > 0
       ? [...featuredProjects, ...featuredProjects]
@@ -74,11 +150,14 @@ const FeaturedProjects = () => {
           </div>
         </SectionHeader>
 
-        <ProjectsGrid>
-          <ProjectsTrack>
+        <ProjectsGrid
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
+          <ProjectsTrack ref={trackRef}>
             {marqueeProjects.map((project, index) => (
               <ProjectSlide key={`${project.id}-${index}`}>
-                <ProjectCard>
+                <ProjectCard onClick={() => history.push(`/project/${project.id}`)}>
                   <ProjectMedia>
                     <ProjectImage src={project.image} alt={project.name} />
                     <StatusBadge>{project.status}</StatusBadge>
@@ -113,7 +192,7 @@ const FeaturedProjects = () => {
 
                     <ProjectFooter>
                       <PriceRange>
-                        <Price>{project.priceRange}</Price>
+                        <Price>{ensurePriceRangeDisplay(project.priceRange)}</Price>
                         <Configuration>{project.unitTypes || project.bhk}</Configuration>
                       </PriceRange>
                       <ViewButton onClick={() => history.push(`/project/${project.id}`)}>
@@ -128,6 +207,9 @@ const FeaturedProjects = () => {
               </ProjectSlide>
             ))}
           </ProjectsTrack>
+          <NextArrowButton onClick={handleNext} $isVisible={isHovered}>
+            <FontAwesomeIcon icon={faChevronRight} />
+          </NextArrowButton>
         </ProjectsGrid>
 
         <ViewAllButtonWrapper>

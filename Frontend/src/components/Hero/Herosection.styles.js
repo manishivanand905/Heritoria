@@ -1,40 +1,92 @@
 import styled, { css, keyframes } from "styled-components";
 
-const projectCardEnter = keyframes`
+const projectCardWinkIn = keyframes`
   0% {
     opacity: 0;
-    transform: translate3d(0, 28px, 0) scale(0.98);
-    filter: blur(10px);
+    transform: perspective(1400px) scaleY(0.08) scaleX(0.97) rotateX(8deg);
+    clip-path: inset(50% 0 50% 0 round 20px);
+    filter: blur(14px);
+  }
+
+  62% {
+    opacity: 1;
+    transform: perspective(1400px) scaleY(1.03) scaleX(1) rotateX(0deg);
+    clip-path: inset(0 0 0 0 round 20px);
+    filter: blur(2px);
   }
 
   100% {
     opacity: 1;
-    transform: translate3d(0, 0, 0) scale(1);
+    transform: perspective(1400px) scaleY(1) scaleX(1) rotateX(0deg);
+    clip-path: inset(0 0 0 0 round 20px);
     filter: blur(0);
   }
 `;
 
-const projectCardExit = keyframes`
+const projectCardWinkOut = keyframes`
   0% {
     opacity: 1;
-    transform: translate3d(0, 0, 0) scale(1);
+    transform: perspective(1400px) scaleY(1) scaleX(1) rotateX(0deg);
+    clip-path: inset(0 0 0 0 round 20px);
     filter: blur(0);
   }
 
   100% {
     opacity: 0;
-    transform: translate3d(0, -24px, 0) scale(1.02);
-    filter: blur(10px);
+    transform: perspective(1400px) scaleY(0.08) scaleX(0.98) rotateX(-8deg);
+    clip-path: inset(50% 0 50% 0 round 20px);
+    filter: blur(12px);
   }
 `;
 
 const projectImageReveal = keyframes`
   0% {
-    transform: scale(1.08);
+    transform: scale(1.12);
+    filter: saturate(0.82) brightness(0.88);
   }
 
   100% {
     transform: scale(1);
+    filter: saturate(1) brightness(1);
+  }
+`;
+
+const projectContentReveal = keyframes`
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0);
+    filter: blur(10px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    filter: blur(0);
+  }
+`;
+
+const projectBadgeReveal = keyframes`
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -10px, 0) scale(0.92);
+    filter: blur(8px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0);
+  }
+`;
+
+const showcaseGlowFloat = keyframes`
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate3d(0, -14px, 0) scale(1.05);
   }
 `;
 
@@ -391,6 +443,36 @@ export const ProjectCardStage = styled.div`
   position: relative;
   width: 100%;
   max-width: 500px;
+  isolation: isolate;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    border-radius: 999px;
+    pointer-events: none;
+    z-index: 0;
+    animation: ${showcaseGlowFloat} 8s ease-in-out infinite;
+  }
+
+  &::before {
+    top: 18px;
+    right: -32px;
+    width: 180px;
+    height: 180px;
+    background: radial-gradient(circle, rgba(245, 212, 138, 0.34) 0%, rgba(245, 212, 138, 0) 72%);
+    filter: blur(10px);
+  }
+
+  &::after {
+    bottom: 22px;
+    left: -28px;
+    width: 160px;
+    height: 160px;
+    background: radial-gradient(circle, rgba(20, 163, 143, 0.24) 0%, rgba(20, 163, 143, 0) 74%);
+    filter: blur(12px);
+    animation-delay: -4s;
+  }
 
   @media (max-width: 768px) {
     max-width: 100%;
@@ -402,20 +484,46 @@ export const ProjectCard = styled.button`
   border: none;
   padding: 0;
   text-align: left;
-  background: white;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(244, 249, 248, 0.98) 100%);
   border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+  box-shadow:
+    0 28px 70px rgba(1, 12, 19, 0.22),
+    0 10px 24px rgba(255, 255, 255, 0.18);
   width: 100%;
   transition:
     transform 0.45s ease,
-    box-shadow 0.45s ease;
+    box-shadow 0.45s ease,
+    border-color 0.45s ease;
   cursor: pointer;
   will-change: transform, opacity, filter;
+  transform-origin: center center;
+  backface-visibility: hidden;
+  position: relative;
+  z-index: 1;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 34%),
+      linear-gradient(180deg, rgba(13, 125, 110, 0.04) 0%, rgba(13, 125, 110, 0) 42%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  > * {
+    position: relative;
+    z-index: 1;
+  }
 
   &:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 24px 72px rgba(0, 0, 0, 0.16);
+    transform: translateY(-8px) scale(1.01);
+    box-shadow:
+      0 34px 86px rgba(1, 12, 19, 0.26),
+      0 14px 28px rgba(255, 255, 255, 0.24);
   }
 
   &:focus-visible {
@@ -439,13 +547,13 @@ export const AnimatedProjectCard = styled(ProjectCard)`
   ${({ $animationState }) =>
     $animationState === "enter" &&
     css`
-      animation: ${projectCardEnter} 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+      animation: ${projectCardWinkIn} 1.2s ease-out both;
     `}
 
   ${({ $animationState }) =>
     $animationState === "exit" &&
     css`
-      animation: ${projectCardExit} 1.2s cubic-bezier(0.4, 0, 0.2, 1) both;
+      animation: ${projectCardWinkOut} 1.2s ease-out both;
     `}
 `;
 
@@ -461,6 +569,7 @@ export const ProjectImage = styled.div`
     object-fit: cover;
     display: block;
     transform-origin: center;
+    will-change: transform, filter;
   }
 
   ${AnimatedProjectCard}[data-state="enter"] & img {
@@ -481,16 +590,21 @@ export const QualityBadge = styled.div`
   top: 20px;
   right: 20px;
   background: white;
-  border-radius: 12px;
-  padding: 12px 16px;
+  border-radius: 10px;
+  padding: 8px 12px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
 
   svg {
-    font-size: 24px;
+    font-size: 18px;
     color: #0d7d6e;
+  }
+
+  ${AnimatedProjectCard}[data-state="enter"] & {
+    animation: ${projectBadgeReveal} 0.9s ease-out 0.26s both;
   }
 
   div {
@@ -500,13 +614,13 @@ export const QualityBadge = styled.div`
     line-height: 1.2;
 
     div:first-child {
-      font-size: 13px;
+      font-size: 11px;
       color: #666;
       font-weight: 500;
     }
 
     div:last-child {
-      font-size: 15px;
+      font-size: 12px;
       color: #1a1a1a;
       font-weight: 700;
     }
@@ -515,29 +629,54 @@ export const QualityBadge = styled.div`
   @media (max-width: 480px) {
     top: 12px;
     right: 12px;
-    padding: 10px 12px;
+    padding: 7px 10px;
 
     svg {
-      font-size: 20px;
+      font-size: 16px;
     }
 
     div {
       div:first-child {
-        font-size: 11px;
+        font-size: 10px;
       }
 
       div:last-child {
-        font-size: 13px;
+        font-size: 11px;
       }
     }
   }
 `;
 
 export const ProjectInfo = styled.div`
-  padding: 18px 22px 16px;
+  padding: 20px 22px 18px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 7px;
+
+  > * {
+    will-change: transform, opacity, filter;
+  }
+
+  ${AnimatedProjectCard}[data-state="enter"] & > * {
+    opacity: 0;
+    animation: ${projectContentReveal} 0.82s ease-out forwards;
+  }
+
+  ${AnimatedProjectCard}[data-state="enter"] & > *:nth-child(1) {
+    animation-delay: 0.18s;
+  }
+
+  ${AnimatedProjectCard}[data-state="enter"] & > *:nth-child(2) {
+    animation-delay: 0.28s;
+  }
+
+  ${AnimatedProjectCard}[data-state="enter"] & > *:nth-child(3) {
+    animation-delay: 0.38s;
+  }
+
+  ${AnimatedProjectCard}[data-state="enter"] & > *:nth-child(4) {
+    animation-delay: 0.48s;
+  }
 
   @media (max-width: 768px) {
     padding: 18px 20px 16px;
@@ -553,6 +692,24 @@ export const ProjectHeaderRow = styled.div`
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+`;
+
+export const ProjectContentRow = styled.div`
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 16px;
+  align-items: start;
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+export const ProjectTextContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
 `;
 
 export const ProjectLabel = styled.div`
@@ -601,10 +758,12 @@ export const BenefitBox = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-top: 4px;
+  align-self: start;
+  min-width: 176px;
 
   @media (max-width: 480px) {
     padding: 9px 10px;
+    min-width: 0;
   }
 `;
 

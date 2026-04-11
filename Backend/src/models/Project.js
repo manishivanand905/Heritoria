@@ -30,6 +30,41 @@ const benefitSchema = new mongoose.Schema(
   { _id: false }
 );
 
+const subscriptionPlanSchema = new mongoose.Schema(
+  {
+    id: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    price: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    description: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    benefitAmount: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    features: {
+      type: [String],
+      default: [],
+    },
+  },
+  { _id: false }
+);
+
 const projectSchema = new mongoose.Schema(
   {
     id: {
@@ -120,6 +155,10 @@ const projectSchema = new mongoose.Schema(
       type: [benefitSchema],
       default: [],
     },
+    subscriptionPlans: {
+      type: [subscriptionPlanSchema],
+      default: [],
+    },
     totalBenefitValue: {
       type: String,
       required: true,
@@ -147,4 +186,3 @@ const projectSchema = new mongoose.Schema(
 );
 
 module.exports = mongoose.model("Project", projectSchema);
-

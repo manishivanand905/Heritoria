@@ -24,7 +24,9 @@ const buttonStyles = css`
 const inputBase = css`
   width: 100%;
   border-radius: 16px;
-  border: 1px solid rgba(25, 118, 99, 0.14);
+  border: 1px solid
+    ${({ $hasError, theme }) =>
+      $hasError ? "rgba(231, 76, 60, 0.42)" : "rgba(25, 118, 99, 0.14)"};
   background: rgba(255, 255, 255, 0.88);
   color: ${({ theme }) => theme.colors.textDark};
   padding: 13px 14px;
@@ -35,8 +37,12 @@ const inputBase = css`
   }
 
   &:focus {
-    border-color: ${({ theme }) => theme.colors.primary};
-    box-shadow: 0 0 0 4px rgba(25, 118, 99, 0.08);
+    border-color: ${({ $hasError, theme }) =>
+      $hasError ? theme.colors.error : theme.colors.primary};
+    box-shadow: ${({ $hasError }) =>
+      $hasError
+        ? "0 0 0 4px rgba(231, 76, 60, 0.08)"
+        : "0 0 0 4px rgba(25, 118, 99, 0.08)"};
   }
 `;
 
@@ -566,7 +572,7 @@ export const StatusBadge = styled.span`
 
 export const ActionRow = styled.div`
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   align-items: center;
   gap: 6px;
 `;
@@ -576,12 +582,15 @@ export const TinyButton = styled.button`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  white-space: nowrap;
+  gap: 8px;
+  white-space: normal;
   min-width: 34px;
-  height: 34px;
-  padding: 0;
+  min-height: 34px;
+  padding: 8px 12px;
   font-size: 0.78rem;
   font-weight: 600;
+  line-height: 1.25;
+  text-align: center;
   letter-spacing: 0.01em;
   background: ${({ $variant, theme }) =>
     $variant === "danger"
@@ -661,6 +670,18 @@ export const Field = styled.label`
 export const Label = styled.span`
   font-size: 0.88rem;
   color: ${({ theme }) => theme.colors.textDark};
+`;
+
+export const FieldMessage = styled.span`
+  font-size: 0.78rem;
+  color: ${({ theme }) => theme.colors.error};
+  line-height: 1.4;
+`;
+
+export const FieldHint = styled.span`
+  font-size: 0.78rem;
+  color: ${({ theme }) => theme.colors.text};
+  line-height: 1.5;
 `;
 
 export const Input = styled.input`
@@ -746,6 +767,153 @@ export const PreviewImage = styled.img`
   width: 100%;
   max-height: 260px;
   object-fit: cover;
+`;
+
+export const AmenityDropdown = styled.div`
+  position: relative;
+`;
+
+export const AmenityDropdownTrigger = styled.button`
+  width: 100%;
+  border-radius: 16px;
+  border: 1px solid
+    ${({ $hasError, $open, theme }) =>
+      $hasError
+        ? "rgba(231, 76, 60, 0.42)"
+        : $open
+          ? theme.colors.primary
+          : "rgba(25, 118, 99, 0.14)"};
+  background: rgba(255, 255, 255, 0.88);
+  color: ${({ theme }) => theme.colors.textDark};
+  padding: 13px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  text-align: left;
+  font-size: 0.95rem;
+  cursor: pointer;
+  box-shadow: ${({ $open, $hasError }) =>
+    $hasError
+      ? "0 0 0 4px rgba(231, 76, 60, 0.04)"
+      : $open
+        ? "0 0 0 4px rgba(25, 118, 99, 0.08)"
+        : "none"};
+
+  &:focus-visible {
+    outline: 3px solid rgba(25, 118, 99, 0.16);
+    outline-offset: 2px;
+  }
+`;
+
+export const AmenityTriggerText = styled.span`
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+
+export const AmenityTriggerIcon = styled.span`
+  flex-shrink: 0;
+  font-size: 0.8rem;
+  color: ${({ theme }) => theme.colors.text};
+`;
+
+export const AmenityDropdownMenu = styled.div`
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  z-index: 4;
+  border-radius: 20px;
+  border: 1px solid rgba(25, 118, 99, 0.12);
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 18px 36px rgba(40, 53, 61, 0.12);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 280px;
+  overflow: auto;
+`;
+
+export const AmenityOptionRow = styled.label`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: ${({ $selected }) =>
+    $selected
+      ? "linear-gradient(135deg, rgba(25, 118, 99, 0.12), rgba(25, 118, 99, 0.05))"
+      : "rgba(248, 244, 236, 0.4)"};
+  color: ${({ $selected, theme }) =>
+    $selected ? theme.colors.primaryDark : theme.colors.textDark};
+  cursor: pointer;
+`;
+
+export const AmenityOptionCheckbox = styled.input`
+  accent-color: ${({ theme }) => theme.colors.primary};
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+`;
+
+export const AmenityCreateRow = styled.div`
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(25, 118, 99, 0.08);
+`;
+
+export const AmenityCreateButton = styled.button`
+  ${buttonStyles};
+  padding: 12px 16px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(25, 118, 99, 0.14), rgba(25, 118, 99, 0.08));
+  color: ${({ theme }) => theme.colors.primaryDark};
+  white-space: nowrap;
+`;
+
+export const SelectedAmenities = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+`;
+
+export const SelectedAmenityChip = styled.button`
+  ${buttonStyles};
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(25, 118, 99, 0.1);
+  color: ${({ theme }) => theme.colors.primaryDark};
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: 1px solid rgba(25, 118, 99, 0.14);
+
+  &:hover {
+    background: rgba(25, 118, 99, 0.16);
+  }
+
+  &:focus-visible {
+    outline: 3px solid rgba(25, 118, 99, 0.16);
+    outline-offset: 2px;
+  }
+`;
+
+export const SelectedAmenityRemoveIcon = styled.span`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(25, 118, 99, 0.12);
+  font-size: 0.72rem;
 `;
 
 export const Divider = styled.div`

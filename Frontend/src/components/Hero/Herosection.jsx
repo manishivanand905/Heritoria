@@ -34,6 +34,8 @@ import {
   ProjectInfo,
   ProjectHeaderRow,
   ProjectLabel,
+  ProjectContentRow,
+  ProjectTextContent,
   ProjectTitle,
   ProjectBuilder,
   ProjectLocation,
@@ -44,12 +46,16 @@ import {
 } from "./Herosection.styles";
 import homeHeroContent from "../../data/homeHero.data";
 import {
+  ensureCurrencyDisplay,
+  ensurePriceRangeDisplay,
+} from "../../utils/currencyFormatting";
+import {
   BENEFIT_RANGE_HEADLINE,
   BENEFIT_RANGE_LABEL,
   MAX_BENEFIT_LABEL,
 } from "../../constants/benefits";
 
-const HERO_PROJECT_ROTATION_INTERVAL = 20000;
+const HERO_PROJECT_ROTATION_INTERVAL = 5000;
 const HERO_PROJECT_TRANSITION_DURATION = 1200;
 
 const ProjectShowcaseCard = ({ project, animationState, onClick }) => (
@@ -78,23 +84,27 @@ const ProjectShowcaseCard = ({ project, animationState, onClick }) => (
           {project.featured ? "Featured Project" : "Live Project"}
         </ProjectLabel>
       </ProjectHeaderRow>
-      <ProjectTitle>{project.name}</ProjectTitle>
-      <ProjectBuilder>by {project.builder}</ProjectBuilder>
-      <ProjectLocation>
-        {[project.location, project.priceRange].filter(Boolean).join(" | ")}
-      </ProjectLocation>
+      <ProjectContentRow>
+        <ProjectTextContent>
+          <ProjectTitle>{project.name}</ProjectTitle>
+          <ProjectBuilder>by {project.builder}</ProjectBuilder>
+          <ProjectLocation>
+            {[project.location, ensurePriceRangeDisplay(project.priceRange)].filter(Boolean).join(" | ")}
+          </ProjectLocation>
+        </ProjectTextContent>
 
-      <BenefitBox>
-        <BenefitIcon>
-          <FontAwesomeIcon icon={faStar} />
-        </BenefitIcon>
-        <div>
-          <BenefitLabel>Your Exclusive Benefit</BenefitLabel>
-          <BenefitAmount>
-            {project.benefitsWorth || project.totalBenefitValue || MAX_BENEFIT_LABEL}
-          </BenefitAmount>
-        </div>
-      </BenefitBox>
+        <BenefitBox>
+          <BenefitIcon>
+            <FontAwesomeIcon icon={faStar} />
+          </BenefitIcon>
+          <div>
+            <BenefitLabel>Your Exclusive Benefit</BenefitLabel>
+            <BenefitAmount>
+              {ensureCurrencyDisplay(project.benefitsWorth || project.totalBenefitValue) || MAX_BENEFIT_LABEL}
+            </BenefitAmount>
+          </div>
+        </BenefitBox>
+      </ProjectContentRow>
     </ProjectInfo>
   </AnimatedProjectCard>
 );

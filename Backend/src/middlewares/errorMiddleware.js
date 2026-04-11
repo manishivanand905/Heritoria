@@ -5,7 +5,10 @@ const notFound = (req, res, next) => {
 };
 
 const errorHandler = (error, req, res, next) => {
-  const statusCode = res.statusCode && res.statusCode !== 200 ? res.statusCode : 500;
+  const statusCode =
+    error.statusCode ||
+    error.status ||
+    (res.statusCode && res.statusCode !== 200 ? res.statusCode : 500);
 
   res.status(statusCode).json({
     success: false,
@@ -18,4 +21,3 @@ module.exports = {
   notFound,
   errorHandler,
 };
-

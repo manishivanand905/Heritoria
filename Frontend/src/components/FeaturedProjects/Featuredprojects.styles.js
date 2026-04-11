@@ -134,10 +134,6 @@ export const ProjectsGrid = styled.div`
   position: relative;
   overflow: hidden;
   width: 100%;
-
-  &:hover > div {
-    animation-play-state: paused;
-  }
 `;
 
 export const ViewAllButtonWrapper = styled.div`
@@ -155,12 +151,46 @@ export const ProjectsTrack = styled.div`
   align-items: stretch;
   gap: 2rem;
   width: max-content;
-  animation: ${marqueeScroll} 22s linear infinite;
   will-change: transform;
 
   @media (max-width: 768px) {
     gap: 1.25rem;
-    animation-duration: 18s;
+  }
+`;
+
+export const NextArrowButton = styled.button`
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0d7d6e;
+  font-size: 1.25rem;
+  cursor: pointer;
+  z-index: 10;
+  opacity: ${(props) => (props.$isVisible ? 1 : 0)};
+  visibility: ${(props) => (props.$isVisible ? "visible" : "hidden")};
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: #0d7d6e;
+    color: #fff;
+    border-color: #0d7d6e;
+  }
+
+  @media (max-width: 768px) {
+    width: 40px;
+    height: 40px;
+    right: 10px;
+    font-size: 1rem;
   }
 `;
 
@@ -180,6 +210,7 @@ export const ProjectCard = styled.div`
   background: #ffffff;
   border-radius: 16px;
   overflow: hidden;
+  cursor: pointer;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;

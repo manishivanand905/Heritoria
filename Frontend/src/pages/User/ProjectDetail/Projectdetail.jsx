@@ -125,45 +125,10 @@ import {
   FURNITURE_BENEFIT_LABEL,
   TOTAL_BENEFIT_LABEL,
 } from "../../../constants/benefits";
-
-const subscriptionPlans = [
-  {
-    id: "basic",
-    name: "Basic",
-    price: "Rs. 1,999",
-    description: "Ideal for first-time buyers who want benefit access.",
-    features: [
-      "Benefit unlock for this project",
-      "Builder pricing support",
-      "Documentation guidance",
-    ],
-    benefitAmount: "Rs 20K",
-  },
-  {
-    id: "premium",
-    name: "Premium",
-    price: "Rs. 4,999",
-    description: "Best for families comparing units and negotiating.",
-    features: [
-      "Everything in Basic",
-      "Priority site visit coordination",
-      "Shortlist review and negotiation help",
-    ],
-    benefitAmount: "Rs 1 Lakh",
-  },
-  {
-    id: "elite",
-    name: "Elite",
-    price: "Rs. 9,999",
-    description: "White-glove support from selection to booking.",
-    features: [
-      "Everything in Premium",
-      "Dedicated relationship manager",
-      "Booking strategy and concierge support",
-    ],
-    benefitAmount: "Rs 3 Lakhs",
-  },
-];
+import { DEFAULT_SUBSCRIPTION_PLANS } from "../../../constants/subscriptionPlans";
+import {
+  ensurePriceRangeDisplay,
+} from "../../../utils/currencyFormatting";
 
 const visitTimeSlots = [
   "10:00 AM - 11:00 AM",
@@ -199,7 +164,12 @@ const ProjectDetail = () => {
   const scrollTargetRef = useRef(0);
   const scrollAnimationFrameRef = useRef(null);
   const [activeModal, setActiveModal] = useState(null);
-  const [selectedPlan, setSelectedPlan] = useState(subscriptionPlans[0].id);
+  const [subscriptionPlans, setSubscriptionPlans] = useState(
+    DEFAULT_SUBSCRIPTION_PLANS
+  );
+  const [selectedPlan, setSelectedPlan] = useState(
+    DEFAULT_SUBSCRIPTION_PLANS[0].id
+  );
   const [subscriptionSubmitted, setSubscriptionSubmitted] = useState(false);
   const [visitSubmitted, setVisitSubmitted] = useState(false);
   const [modalError, setModalError] = useState("");
@@ -213,8 +183,22 @@ const ProjectDetail = () => {
     const loadProject = async () => {
       try {
         setIsLoadingProject(true);
-        const response = await requestJson(`/projects/${id}`);
-        setProject(response.data);
+        const [projectResult, membershipPlansResult] = await Promise.allSettled([
+          requestJson(`/projects/${id}`),
+          requestJson("/membership-plans"),
+        ]);
+
+        if (projectResult.status !== "fulfilled") {
+          throw projectResult.reason;
+        }
+
+        setProject(projectResult.value.data);
+        setSubscriptionPlans(
+          membershipPlansResult.status === "fulfilled" &&
+            membershipPlansResult.value.data?.length > 0
+            ? membershipPlansResult.value.data
+            : DEFAULT_SUBSCRIPTION_PLANS
+        );
         setProjectError("");
       } catch (error) {
         setProjectError(error.message);
@@ -319,7 +303,7 @@ const ProjectDetail = () => {
 
   const handleOpenSubscription = () => {
     setActiveModal("subscription");
-    setSelectedPlan(subscriptionPlans[0].id);
+    setSelectedPlan(activeSubscriptionPlans[0].id);
     setSubscriptionSubmitted(false);
     setSubscriptionForm(initialSubscriptionForm);
     setModalError("");
@@ -442,9 +426,14 @@ const ProjectDetail = () => {
     }
   };
 
+  const activeSubscriptionPlans =
+    subscriptionPlans.length > 0
+      ? subscriptionPlans
+      : DEFAULT_SUBSCRIPTION_PLANS;
+
   const selectedPlanDetails =
-    subscriptionPlans.find((plan) => plan.id === selectedPlan) ||
-    subscriptionPlans[0];
+    activeSubscriptionPlans.find((plan) => plan.id === selectedPlan) ||
+    activeSubscriptionPlans[0];
 
   return (
     <>
@@ -512,7 +501,7 @@ const ProjectDetail = () => {
                     </InfoIcon>
                     <div>
                       <InfoLabel>Price Range</InfoLabel>
-                      <InfoValue>{project.priceRange}</InfoValue>
+                      <InfoValue>{ensurePriceRangeDisplay(project.priceRange)}</InfoValue>
                     </div>
                   </InfoCard>
                 </OverviewGrid>
@@ -619,7 +608,7 @@ const ProjectDetail = () => {
               <SidebarSection>
                 <SidebarCard>
                   <PriceLabel>Price Range</PriceLabel>
-                  <PriceValue>{project.priceRange}</PriceValue>
+                  <PriceValue>{ensurePriceRangeDisplay(project.priceRange)}</PriceValue>
                   <BenefitsNote>
                     + Benefits worth {BENEFIT_RANGE_LABEL}
                   </BenefitsNote>
@@ -659,7 +648,8 @@ const ProjectDetail = () => {
                 <ModalTitle>Choose a benefit subscription</ModalTitle>
                 <ModalDescription>
                   Pick the plan that fits your buying journey for {project.name}
-                  and unlock benefits worth {BENEFIT_RANGE_LABEL}.
+                  and unlock benefits worth{" "}
+                  {project.totalBenefitValue || BENEFIT_RANGE_LABEL}.
                 </ModalDescription>
               </div>
               <ModalCloseButton type="button" onClick={closeModal}>
@@ -689,7 +679,7 @@ const ProjectDetail = () => {
                   <InlineNote style={{ color: "#d64545" }}>{modalError}</InlineNote>
                 ) : null}
                 <PlansGrid>
-                  {subscriptionPlans.map((plan) => (
+                  {activeSubscriptionPlans.map((plan) => (
                     <PlanCard
                       key={plan.id}
                       type="button"

@@ -81,6 +81,19 @@ const projectRequestSchema = new mongoose.Schema(
       enum: ["new", "inProgress", "scheduled", "completed", "closed"],
       default: "new",
     },
+    subscriberStatus: {
+      type: String,
+      enum: ["subscribed", "notUsed", "expired"],
+      default: undefined,
+    },
+    usedAt: {
+      type: Date,
+      default: null,
+    },
+    expiredAt: {
+      type: Date,
+      default: null,
+    },
   },
   {
     timestamps: true,

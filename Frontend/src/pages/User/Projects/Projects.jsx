@@ -48,6 +48,7 @@ import {
   statusFilters,
 } from "../../../data/projectFilters";
 import { requestJson } from "../../../Services/api";
+import { ensureCurrencyDisplay } from "../../../utils/currencyFormatting";
 
 const ProjectsPage = () => {
   const history = useHistory();
@@ -320,7 +321,7 @@ const ProjectsPage = () => {
 
                     <ProjectFooter>
                       <PriceRange>
-                        <Price>{project.budget}</Price>
+                        <Price>{ensureCurrencyDisplay(project.budget)}</Price>
                         <Configuration>
                           {project.bhk} | {project.size}
                         </Configuration>

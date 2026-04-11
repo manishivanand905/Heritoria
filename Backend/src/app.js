@@ -7,6 +7,7 @@ const investorRoutes = require("./routes/investorRoutes");
 const requestRoutes = require("./routes/requestRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
 const authRoutes = require("./routes/authRoutes");
+const membershipPlanRoutes = require("./routes/membershipPlanRoutes");
 const { notFound, errorHandler } = require("./middlewares/errorMiddleware");
 
 const app = express();
@@ -55,6 +56,7 @@ app.use("/api/projects", projectRoutes);
 app.use("/api/investors", investorRoutes);
 app.use("/api/requests", requestRoutes);
 app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/membership-plans", membershipPlanRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
