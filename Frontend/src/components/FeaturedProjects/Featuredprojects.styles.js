@@ -13,14 +13,6 @@ const fadeInUp = keyframes`
   }
 `;
 
-const marqueeScroll = keyframes`
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-`;
 
 export const FeaturedSection = styled.section`
   padding: 100px 100px;
