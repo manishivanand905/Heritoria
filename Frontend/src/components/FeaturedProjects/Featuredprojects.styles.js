@@ -126,6 +126,7 @@ export const ProjectsGrid = styled.div`
   position: relative;
   overflow: hidden;
   width: 100%;
+  touch-action: pan-y;
 `;
 
 export const ViewAllButtonWrapper = styled.div`
@@ -178,11 +179,8 @@ export const NextArrowButton = styled.button`
     border-color: #0d7d6e;
   }
 
-  @media (max-width: 768px) {
-    width: 40px;
-    height: 40px;
-    right: 10px;
-    font-size: 1rem;
+  @media (max-width: 1024px) {
+    display: none;
   }
 `;
 

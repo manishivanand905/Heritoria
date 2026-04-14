@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 export const FooterContainer = styled.footer`
   width: 100%;
@@ -267,7 +268,7 @@ export const LegalLinks = styled.div`
   }
 `;
 
-export const LegalLink = styled.a`
+export const LegalLink = styled(Link)`
   font-size: 14px;
   color: #90a4ae;
   text-decoration: none;

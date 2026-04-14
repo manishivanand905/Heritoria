@@ -14,6 +14,8 @@ import ForInvestors from "./pages/User/ForInvestors/Investorspage";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import Login from "./pages/Login/Login";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import PrivacyPolicy from "./pages/User/Legal/PrivacyPolicy";
+import TermsOfService from "./pages/User/Legal/TermsOfService";
 
 function App() {
   return (
@@ -29,6 +31,8 @@ function App() {
             <Route path="/project/:id" component={ProjectDetail} />
             <Route exact path="/forinvestors" component={ForInvestors} />
             <Route exact path="/login" component={Login} />
+            <Route exact path="/privacy" component={PrivacyPolicy} />
+            <Route exact path="/terms" component={TermsOfService} />
             <Route
               exact
               path="/admin"

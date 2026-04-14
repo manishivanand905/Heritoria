@@ -118,6 +118,13 @@ const HeroSection = ({ offsetForHeader = false }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [previousIndex, setPreviousIndex] = useState(null);
   const [isRotationPaused, setIsRotationPaused] = useState(false);
+  const [isMobile, setIsMobile] = useState(typeof window !== "undefined" ? window.innerWidth <= 768 : false);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     let isMounted = true;
@@ -278,10 +285,10 @@ const HeroSection = ({ offsetForHeader = false }) => {
 
         <RightSection>
           <ProjectCardStage
-            onMouseEnter={() => setIsRotationPaused(true)}
-            onMouseLeave={() => setIsRotationPaused(false)}
-            onFocus={() => setIsRotationPaused(true)}
-            onBlur={() => setIsRotationPaused(false)}
+            onMouseEnter={() => !isMobile && setIsRotationPaused(true)}
+            onMouseLeave={() => !isMobile && setIsRotationPaused(false)}
+            onFocus={() => !isMobile && setIsRotationPaused(true)}
+            onBlur={() => !isMobile && setIsRotationPaused(false)}
           >
             {outgoingProject ? (
               <ProjectShowcaseCard

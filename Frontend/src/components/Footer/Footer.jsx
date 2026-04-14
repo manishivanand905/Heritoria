@@ -118,8 +118,8 @@ const Footer = () => {
             Powered and secured by Kommu Tech & Marketing Pvt.Ltd
           </Copyright>
           <LegalLinks>
-            <LegalLink href="#privacy">Privacy Policy</LegalLink>
-            <LegalLink href="#terms">Terms of Service</LegalLink>
+            <LegalLink to="/privacy">Privacy Policy</LegalLink>
+            <LegalLink to="/terms">Terms of Service</LegalLink>
           </LegalLinks>
         </FooterWrapper>
       </FooterBottom>

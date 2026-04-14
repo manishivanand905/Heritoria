@@ -66,6 +66,10 @@ const FeaturedProjects = () => {
   const [isHovered, setIsHovered] = useState(false);
   const scrollPosRef = React.useRef(0);
   const isTransitioningRef = React.useRef(false);
+  
+  const isTouchedRef = React.useRef(false);
+  const touchStartXRef = React.useRef(0);
+  const touchCurrentTranslateRef = React.useRef(0);
 
   useEffect(() => {
     const track = trackRef.current;
@@ -78,7 +82,7 @@ const FeaturedProjects = () => {
       const delta = time - lastTime;
       lastTime = time;
 
-      if (!isHovered && !isTransitioningRef.current) {
+      if (!isHovered && !isTransitioningRef.current && !isTouchedRef.current) {
         // Adjust speed here: approximately 50px per second
         scrollPosRef.current += delta * 0.05;
 
@@ -99,6 +103,44 @@ const FeaturedProjects = () => {
 
     return () => cancelAnimationFrame(animationId);
   }, [isHovered, featuredProjects]);
+
+  const handleTouchStart = (e) => {
+    isTouchedRef.current = true;
+    touchStartXRef.current = e.touches[0].clientX;
+    touchCurrentTranslateRef.current = scrollPosRef.current;
+    
+    if (trackRef.current) {
+      trackRef.current.style.transition = "none";
+    }
+  };
+
+  const handleTouchMove = (e) => {
+    if (!isTouchedRef.current || !trackRef.current) return;
+    
+    const currentX = e.touches[0].clientX;
+    const deltaX = currentX - touchStartXRef.current;
+    let nextPos = touchCurrentTranslateRef.current - deltaX;
+    
+    const track = trackRef.current;
+    const halfWidth = track.scrollWidth / 2;
+    
+    if (nextPos >= halfWidth) {
+      nextPos -= halfWidth;
+      touchStartXRef.current = currentX;
+      touchCurrentTranslateRef.current = nextPos;
+    } else if (nextPos < 0) {
+      nextPos += halfWidth;
+      touchStartXRef.current = currentX;
+      touchCurrentTranslateRef.current = nextPos;
+    }
+    
+    scrollPosRef.current = nextPos;
+    track.style.transform = `translateX(-${nextPos}px)`;
+  };
+
+  const handleTouchEnd = () => {
+    isTouchedRef.current = false;
+  };
 
   const handleNext = () => {
     const track = trackRef.current;
@@ -153,6 +195,10 @@ const FeaturedProjects = () => {
         <ProjectsGrid
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+          onTouchCancel={handleTouchEnd}
         >
           <ProjectsTrack ref={trackRef}>
             {marqueeProjects.map((project, index) => (
